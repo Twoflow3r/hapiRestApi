@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "hapi": "^18.1.0",
+    "hapi-mongodb": "^8.0.0",
+    "hapi-swagger": "^9.3.0",
+    "inert": "^5.1.2",
+    "mongojs": "^2.6.0",
+    "mongoose": "^5.4.10",
+    "nodemon": "^1.18.10",
+    "tunnel-ssh": "^4.1.4",
+    "vision": "^5.4.4"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
