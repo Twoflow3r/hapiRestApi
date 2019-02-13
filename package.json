@@ -1,4 +1,6 @@
 {
+  "name": "hapi-rest-mongo",
+  "version": "1.0.0-beta",
   "dependencies": {
     "hapi": "^18.1.0",
     "hapi-mongodb": "^8.0.0",
@@ -13,4 +15,5 @@
   "scripts": {
     "start": "nodemon server.js"
   }
+  
 }

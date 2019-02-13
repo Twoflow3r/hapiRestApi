@@ -8,43 +8,28 @@ module.exports = [{
             total: 0,
             category: [],
             categoryCount: [],
-            array: [],
+            array: []
         }
+        const quantity = request.params.quantity ?
+            encodeURIComponent(request.params.quantity) :
+            "10";
         const db = request.mongo.db;
         
         try {
              result.array = await db.collection(`${encodeURIComponent(request.params.collection)}`).find({
-            }).limit(1).toArray();
-             result.total = await db.collection(`${encodeURIComponent(request.params.collection)}`).countDocuments();
-            const regions = await db.collection(`${encodeURIComponent(request.params.collection)}`).aggregate([
-                { "$project": { "$locality_name": { "$split" : [", "] } } },
-                function( err, data ) {
+            }).limit(Number(`${quantity}`)).toArray();
 
-                    if ( err )
-                      throw err;
-                
-                   data 
-                
-                  }
-                 ] );
-                 console.log(regions);
-             /*
-             result.regions = await db.collection(`${encodeURIComponent(request.params.collection)}`).group(
-                
-                ["locality_name"],
-            //{"locality_name": {$regex: "(.*?),"}},
-           { "locality_name": {split: (",")}},
-                { "count": 0 },
-                "function (obj,prev) { prev.count++; }"
-            );
-          */  
+             result.total = await db.collection(`${encodeURIComponent(request.params.collection)}`).countDocuments();
+
              result.category = await db.collection(`${encodeURIComponent(request.params.collection)}`).distinct(`category`);
+
              result.categoryCount = await db.collection(`${encodeURIComponent(request.params.collection)}`).group(
                 ["category"],
                 {},
                 { "count": 0 },
                 "function (obj,prev) { prev.count++; }"
               );
+
             return result;
         }
         catch (err) {
@@ -52,8 +37,9 @@ module.exports = [{
         }
     },
     config: {
-        description: 'get collectoon',
-        tags: ['api', 'collection']
+        description: 'get statistics of collection and array objects, ! after the point is not required!',
+        notes: ['Get statistics of collection, quantity it is option for count objects that api response, His default value 10'],
+        tags: ["/",'api', 'collection', "/", "quantity" ]
     }
 },{
     method: 'GET',
@@ -71,8 +57,9 @@ module.exports = [{
         }
     },
     config: {
-        description: 'Get analog',
-        tags: ["/","collectoon","pageId"]
+        description: "Get one analog",
+        notes: ["Get one object by his id"],
+        tags: ["/","api","collectoon","/","pageId"]
     }
 },
 {
@@ -116,7 +103,8 @@ module.exports = [{
         }
     },
     config: {
-        description: 'Get regions stat',
-        tags: ["/","api/","collectoon","regions"]
+        description: 'Get regions statistics',
+        notes: ["statistics on the number of objects by region"],
+        tags: ["/","api","collection", "regions" ]
     }
 }]

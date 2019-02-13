@@ -31,7 +31,11 @@ const launchServer = async function() {
             options: {
                 info: {
                     title: 'Parsers API Documentation',
-                    version: Pack.version
+                    version: Pack.version,
+                    contact: {
+                        'name': 'Alexander Klimov',
+                        'email': 'klimnotdie@gmail.com'
+                },
                 }
             }
         }, {
@@ -47,8 +51,9 @@ const launchServer = async function() {
             return `<h1>go</h1>`
         },
         config: {
-            description: 'hello',
-            tags: ["/"]
+            description: 'get main page',
+            notes: ['Base path this API'],
+            tags: ["/","api" ]
         }
     });
 
