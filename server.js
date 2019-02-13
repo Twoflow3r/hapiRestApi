@@ -44,7 +44,7 @@ const launchServer = async function() {
         method: 'GET',
         path: '/',
         async handler() {
-            return `<h1>ахуеть</h1>`
+            return `<h1>go</h1>`
         },
         config: {
             description: 'hello',
