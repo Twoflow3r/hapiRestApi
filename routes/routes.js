@@ -2,7 +2,44 @@ const Controller = require('../controllers/controller');
 const Boom = require('boom');
 module.exports = [{
     method: 'GET',
-    path: `/api/{collection}`,
+    path: `/api/`,
+    async handler(request) {
+        const db = request.mongo.db;
+        const result = {
+            stats: {},
+            arrCount: []
+        };
+        let collectionName = [];
+        try {
+        
+          result.stats = await db.stats();
+          const collectionArray = await db.listCollections().toArray();
+
+          collectionArray.forEach((collection) => {
+            collectionName.push(collection.name)
+          });
+
+          console.log(collectionName);
+
+          for( let i = 0; i < collectionName.length;i++){
+
+            result.arrCount.push( await db.collection(`${collectionName[i]}`).countDocuments());
+          }
+
+          return result;
+        }
+        catch (err) {
+            throw Boom.internal('Internal MongoDB error', err);
+        }
+    },
+    config: {
+        description: "Get DB info",
+        notes: ["Get DB info"],
+        tags: ["/","api"]
+    }
+},{
+    method: 'GET',
+    path: `/api/{collection}.{quantity?}`,
     async handler(request) {
         const result = {
             total: 0,

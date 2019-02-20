@@ -11,7 +11,7 @@ const getRoutes = require('./routes/routes');
 const launchServer = async function() {
        
     const dbOpts = {
-        url: 'mongodb://localhost:29330/fincase',
+        url: 'mongodb://localhost:55556/fincase',
         settings: {
             poolSize: 10
         },
@@ -19,10 +19,19 @@ const launchServer = async function() {
     };
     
     const server = Hapi.server({
-    port: 4000,
-    host: 'localhost'
+    port: 8085,
+    host: '0.0.0.0',
+	"routes": {
+        "cors": {
+            origin: ["*"],
+            headers: ["Accept", "Content-Type"]
+        }
+    }
+	
 });
     
+
+
     await server.register([
         Inert,
         Vision,
